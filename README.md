@@ -1,1 +1,5 @@
 # Data-Management-Project
+In this project I chose to use a NoSQL tool (i.e. Neo4J, which is a graph database) and a relational DBMS (i.e. PostgreSQL). The main purpose will be to create different queries, more or less complex, and analyze the performance differences between the different systems, highlighting the strengths and weaknesses of the different solutions used.
+In particular, I will analyze the various query execution times and the complexity in generating and writing queries. For example, create a query focused on joins (join intensive) and analyze the various differences in terms of efficiency compared to using a relational DBMS and a graph database tool.
+To carry out these types of analyzes I chose to use a 2015 dataset that shows all airline flights in the United States in that year, highlighting flight delays and cancellations; in particular the purpose of this dataset is to identify the most reliable airlines to choose for your flight. Below is the link to the dataset:
+https://www.kaggle.com/datasets/usdot/flight-delays/data?select=flights.csv
