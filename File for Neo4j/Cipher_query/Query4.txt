@@ -1,0 +1,7 @@
+MATCH (ar:Airport)
+OPTIONAL MATCH (ar)<-[:LEAVES_FROM_AIRPORT]-(f1:Flight)
+WITH ar, COUNT(f1) AS origin
+OPTIONAL MATCH (ar)<-[:ARRIVES_IN_AIRPORT]-(f2:Flight)
+WITH ar, origin, COUNT(f2) AS destination
+RETURN ar.airportName AS Airport, origin, destination
+ORDER BY Airport;

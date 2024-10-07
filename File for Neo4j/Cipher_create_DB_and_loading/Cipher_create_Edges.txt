@@ -1,0 +1,25 @@
+#Cipher code that create edges between nodes in graph database
+
+MATCH (airport:Airport)
+WITH airport 
+MATCH (city:City)
+WHERE airport.city_a = city.idCity
+CREATE (airport)-[:IS_IN_CITY]->(city)
+
+CALL apoc.periodic.iterate(
+  'MATCH (flight:Flight) RETURN flight',
+  'MATCH (al:Airline) WHERE flight.airline = al.IATA_code CREATE (flight)-[:WITH_AIRLINE]->(al)',
+  { batchSize: 1000, parallel: false }
+)
+
+CALL apoc.periodic.iterate(
+  'MATCH (flight:Flight) RETURN flight',
+  'MATCH (airport:Airport) WHERE flight.originAirport = airport.IATA_code CREATE (flight)-[:LEAVES_FROM_AIRPORT]->(airport)',
+  { batchSize: 1000, parallel: false }
+)
+
+CALL apoc.periodic.iterate(
+  'MATCH (flight:Flight) RETURN flight',
+  'MATCH (airport:Airport) WHERE flight.destinationAirport = airport.IATA_code CREATE (flight)-[:ARRIVES_IN_AIRPORT]->(airport)',
+  { batchSize: 1000, parallel: false }
+)

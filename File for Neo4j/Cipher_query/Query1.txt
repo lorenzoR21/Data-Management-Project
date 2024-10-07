@@ -1,0 +1,7 @@
+MATCH (a:Airline)<-[:WITH_AIRLINE]-(f:Flight {cancelled: 1})
+WITH a, COUNT(f) AS totcancelledflights
+MATCH (a)<-[:WITH_AIRLINE]-(f)
+WITH a, COUNT(f) AS totflights, totcancelledflights
+RETURN a.airlineName, totflights, totcancelledflights, ((totcancelledflights * 1.0) / totflights) AS ratioCancTotFlights
+ORDER BY ratioCancTotFlights DESC
+LIMIT 10;

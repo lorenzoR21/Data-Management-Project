@@ -1,0 +1,63 @@
+#Cipher code that create and load the nodes of graph database from the dataset file
+
+CALL apoc.periodic.iterate(
+  "LOAD CSV WITH HEADERS FROM 'file:///flights_PG.csv' AS row return row",
+  'CREATE (flight:Flight {
+    idflight: COALESCE(toInteger(row.id), 0),
+    year: COALESCE(toInteger(row.year), 0),
+    month: COALESCE(toInteger(row.month), 0),
+    day: COALESCE(toInteger(row.day), 0),
+    dayOfWeek: COALESCE(toInteger(row.day_of_week), 0),
+    airline: row.airline,
+    flightNumber: COALESCE(row.flight_number, 'Unknown'),
+    tailNumber: COALESCE(row.tail_number, 'Unknown'),
+    originAirport: row.origin_airport, 
+    destinationAirport: row.destination_airport,
+    scheduledDeparture: COALESCE(toInteger(row.scheduled_departure), 0),
+    departureTime: COALESCE(toInteger(row.departure_time), 0),
+    departureDelay: COALESCE(toInteger(row.departure_delay), 0),
+    taxiOut: COALESCE(toInteger(row.taxi_out), 0),
+    wheelsOff: COALESCE(toInteger(row.wheels_off), 0),
+    scheduledTime: COALESCE(toInteger(row.scheduled_time), 0),
+    elapsedTime: COALESCE(toInteger(row.elapsed_time), 0),
+    airTime: COALESCE(toInteger(row.air_time), 0),
+    distance: COALESCE(toInteger(row.distance), 0),
+    wheelsOn: COALESCE(toInteger(row.wheels_on), 0),
+    taxiIn: COALESCE(toInteger(row.taxi_in), 0),
+    scheduledArrival: COALESCE(toInteger(row.scheduled_arrival), 0),
+    arrivalTime: COALESCE(toInteger(row.arrival_time), 0),
+    arrivalDelay: COALESCE(toInteger(row.arrival_delay), 0),
+    diverted: COALESCE(toInteger(row.diverted), 0),
+    cancelled: COALESCE(toInteger(row.cancelled), 0),
+    cancellationReason: COALESCE(row.cancellation_reason, 'Unknown'),
+    airSystemDelay: COALESCE(toInteger(row.air_system_delay), 0),
+    securityDelay: COALESCE(toInteger(row.security_delay), 0),
+    airlineDelay: COALESCE(toInteger(row.airline_delay), 0),
+    lateAircraftDelay: COALESCE(toInteger(row.late_aircraft_delay), 0),
+    weatherDelay: COALESCE(toInteger(row.weather_delay), 0)
+  })',
+  { batchSize: 1000, iterateList: true }
+)
+
+
+LOAD CSV WITH HEADERS FROM 'file:///airports_PG.csv' AS row
+CREATE (airport:Airport {
+    IATA_code: row.IATA_code,
+    airportName: row.airport,
+    longitude: toInteger(row.longitude),
+    latitude: toInteger(row.latitude),
+    city_a: toInteger(row.city_a)})
+
+
+LOAD CSV WITH HEADERS FROM 'file:///airlines_PG.csv' AS row
+CREATE (airline:Airline {
+    IATA_code: row.IATA_code,
+    airlineName: row.airline})
+
+
+LOAD CSV WITH HEADERS FROM 'file:///city_PG.csv' AS row
+CREATE (city:City {
+    idCity: toInteger(row.id),
+    name: row.name,
+    state: row.state,
+    country: row.country})

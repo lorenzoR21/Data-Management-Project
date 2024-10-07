@@ -1,0 +1,11 @@
+MATCH (al:Airline)<-[:WITH_AIRLINE]-(f:Flight)-[:LEAVES_FROM_AIRPORT]->(:Airport)-[:IS_IN_CITY]->(cityA:City {name: 'New York'})
+MATCH (f)-[:ARRIVES_IN_AIRPORT]->(:Airport)-[:IS_IN_CITY]->(cityB:City {name: 'Los Angeles'})
+WITH COLLECT(al) AS airlinesAB
+
+MATCH (al:Airline)<-[:WITH_AIRLINE]-(f:Flight)-[:LEAVES_FROM_AIRPORT]->(:Airport)-[:IS_IN_CITY]->(cityC:City {name: 'Atlanta'})
+MATCH (f)-[:ARRIVES_IN_AIRPORT]->(:Airport)-[:IS_IN_CITY]->(cityD:City {name: 'Albany'})
+WITH airlinesAB, COLLECT(al) AS airlinesCD
+
+WITH [al IN airlinesAB WHERE NOT al IN airlinesCD | al.airlineName] AS AirlinesBetweenABNotBetweenCD
+UNWIND AirlinesBetweenABNotBetweenCD AS airlineName
+RETURN DISTINCT airlineName

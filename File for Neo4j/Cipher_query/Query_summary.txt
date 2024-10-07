@@ -1,0 +1,14 @@
+
+Query 1: Find the top 10 airlines that have the most canceled flights in relation to the number of flights.
+
+Query 2: Find the top 10 cities with the most canceled flights that departed from it.
+
+Query 3: Find the airline that operates the most flights departing from a specific city.
+
+Query 4: For each airport count the number of flights departing from it and the number of flights arriving at it.
+
+Query 5: Find airlines that work for the New York-Los Angeles route, but not for the Atlanta-Albany route.
+
+Query 6: For each route it prints the number of airlines operating on that route and which ones they are.
+
+Query 7: For each airlines find the number of departure delay flights and the number of flights with departure delay that arrive in time.

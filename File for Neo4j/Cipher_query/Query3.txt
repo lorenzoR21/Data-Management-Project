@@ -1,0 +1,5 @@
+MATCH (c:City {name: "New York"})<-[:IS_IN_CITY]-(aa:Airport)<-[:LEAVES_FROM_AIRPORT]-(f:Flight)-[:WITH_AIRLINE]->(al:Airline)
+WITH al.airlineName AS airlineN, COUNT(f) AS flightCount
+RETURN airlineN, flightCount
+ORDER BY flightCount DESC
+LIMIT 1;

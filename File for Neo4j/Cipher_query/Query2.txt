@@ -1,0 +1,4 @@
+MATCH (c:City)<-[:IS_IN_CITY]-(a:Airport)<-[:LEAVES_FROM_AIRPORT]-(f:Flight {cancelled: 1})
+RETURN c.name, COUNT(f) AS cancelledFlights
+ORDER BY cancelledFlights DESC
+LIMIT 10;

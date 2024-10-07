@@ -1,0 +1,8 @@
+MATCH (a:Airline)<-[:WITH_AIRLINE]-(f:Flight)
+WHERE f.departureDelay > 0
+WITH a, COUNT(f) AS tot_departude_delay_flights
+MATCH (a)<-[:WITH_AIRLINE]-(f)
+WHERE f.departureDelay > 0 AND f.arrivalTime = f.scheduledArrival
+WITH a, COUNT(f) AS tot_departude_delay_flights_that_arrive_intime, tot_departude_delay_flights
+RETURN a.airlineName, tot_departude_delay_flights, tot_departude_delay_flights_that_arrive_intime
+ORDER BY tot_departude_delay_flights DESC;
